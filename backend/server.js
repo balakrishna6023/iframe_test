@@ -1,13 +1,17 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
 const app = express();
 
 app.use(cors());
 
-app.use((req, res, next) => {
-  res.setHeader('Content-Security-Policy', "frame-ancestors 'none'");
-  next();
-});
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      frameAncestors: ["'none'"]
+    }
+  })
+);
 
 
 app.get('/api/message', (req, res) => {
